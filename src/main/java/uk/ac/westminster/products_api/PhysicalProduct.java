@@ -4,9 +4,10 @@ package uk.ac.westminster.products_api;
 // with an id, a name and a price, and it just also has to be shipped.
 // A ShoppingCart would NOT pass this test: a cart contains products, it is not a product itself (HAS-A, not IS-A).
 
-public class PhysicalProduct extends Product {
+public class PhysicalProduct extends Product implements Discountable {
     private double weightKg;
     private String dimensions;
+    private double discountedPrice;
 
     public PhysicalProduct() {}
     
@@ -25,5 +26,23 @@ public class PhysicalProduct extends Product {
         return dimensions;
     }
 
+    @Override
+    public String getSummary() {
+        return "Physical: " + getName()
+                + " | Weight: " + weightKg + " kg";
 
+    }
+
+
+    @Override
+    public void applyDiscount(double rate) {
+        double capped = Math.min(rate, 0.20);
+        this.discountedPrice = getPrice() * (1 - capped);
+
+    }
+
+    @Override
+    public double getDiscountedPrice() {
+        return discountedPrice;
+    }
 }

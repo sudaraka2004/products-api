@@ -1,37 +1,40 @@
-# Product, ProductService and ProductController - UML class diagram
-
 ```mermaid
 classDiagram
     class Product {
+        <<abstract>>
         -Long id
         -String name
         -double price
-        +Product()
-        +Product(Long id, String name, double price)
-        +getId() Long
+        +getSummary()* String
         +getName() String
         +getPrice() double
-        +setId(Long id) void
-        +setName(String name) void
-        +setPrice(double price) void
     }
-    class ProductService {
-        -List~Product~ products
-        -Long nextId
-        +getAllProducts() List~Product~
-        +getProductById(Long id) Optional~Product~
-        +addProduct(Product product) Product
-        +deleteProduct(Long id) void
-        +findByName(String name) List~Product~
+
+    class Discountable {
+        <<interface>>
+        +applyDiscount(rate: double) void
+        +getDiscountedPrice() double
     }
-    class ProductController {
-        -ProductService productService
-        +getAllProducts() List~Product~
-        +getProductById(Long id) Product
-        +addProduct(Product product) Product
-        +deleteProduct(Long id) void
-        +search(String name) List~Product~
+
+    class DigitalProduct {
+        -String downloadUrl
+        -double fileSizeMB
+        +getSummary() String
+        +applyDiscount(rate: double) void
     }
-    ProductController ..> ProductService
-    ProductService --> Product
+
+    class PhysicalProduct {
+        -double weightKg
+        -String dimensions
+        +getSummary() String
+        +applyDiscount(rate: double) void
+    }
+
+%% generalisation (extends): SOLID line
+    Product <|-- DigitalProduct
+    Product <|-- PhysicalProduct
+
+%% realisation (implements): DASHED line
+    Discountable <|.. DigitalProduct
+    Discountable <|.. PhysicalProduct
 ```

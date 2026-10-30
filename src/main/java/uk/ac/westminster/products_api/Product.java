@@ -1,6 +1,6 @@
 package uk.ac.westminster.products_api;
 
-public class Product {
+public abstract class Product {
     private Long id;
     private String name;
     private double price;
@@ -36,4 +36,7 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+    // No body. Product cannot answer this question,
+    // so every
+    public abstract String getSummary();
 }

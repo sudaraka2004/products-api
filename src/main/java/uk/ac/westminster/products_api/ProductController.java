@@ -22,7 +22,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public Product addProduct(@RequestBody Product product) {
+    public Product addProduct(@RequestBody DigitalProduct product) {
+        // Temporary: Product is abstract, so Jackson cannot build it from JSON.
         return productService.addProduct(product);
     }
 
@@ -34,6 +35,11 @@ public class ProductController {
     @GetMapping("/products/search")
     public List<Product> search(@RequestParam String name) {
         return productService.findByName(name);
+    }
+
+    @GetMapping("/products/summaries")
+    public List<String> geSummaries(){
+        return productService.getAllSummaries();
     }
 
 
